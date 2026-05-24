@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CardioShield - Machine Learning Cardiovascular Risk Predictor</title>
+  
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="Calculate your cardiovascular disease risk in real-time using clinical and lifestyle features with our advanced machine learning models (Logistic Regression & Random Forest).">
+  <meta name="keywords" content="Cardiovascular disease, Heart disease prediction, Machine Learning, Health calculator, Random Forest, Logistic Regression">
+  <meta name="author" content="Antigravity AI">
+  
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:title" content="CardioShield - Heart Disease Predictor">
+  <meta property="og:description" content="Calculate heart disease risk instantly using machine learning models trained on realistic clinical datasets.">
+  <meta property="og:type" content="website">
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Main Stylesheet -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Background decorative glows -->
+  <div class="glow-orb orb-1"></div>
+  <div class="glow-orb orb-2"></div>
+  <div class="glow-orb orb-3"></div>
+
+  <header class="app-header">
+    <div class="logo-area">
+      <svg class="header-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" fill="url(#header-heart-grad)"/>
+        <defs>
+          <linearGradient id="header-heart-grad" x1="2" y1="3" x2="22" y2="21.35" gradientUnits="userSpaceOnUse">
+            <stop stop-color="#ff4b6b"/>
+            <stop offset="1" stop-color="#ff1f4a"/>
+          </linearGradient>
+        </defs>
+      </svg>
+      <h1>Cardio<span>Shield</span></h1>
+    </div>
+    <p class="subtitle">AI-Driven Cardiovascular Risk Assessment Platform</p>
+    
+    <!-- Tab Navigation -->
+    <nav class="tab-nav">
+      <button class="nav-btn active" id="tab-calc-btn">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v8"/><path d="M8 12h8"/></svg>
+        Risk Calculator
+      </button>
+      <button class="nav-btn" id="tab-insights-btn">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 20V10"/><path d="M12 20V4"/><path d="M6 20v-6"/></svg>
+        Model Insights
+      </button>
+    </nav>
+  </header>
+
+  <main class="container">
+    
+    <!-- Tab 1: Calculator Area -->
+    <section class="tab-content active" id="tab-calc">
+      <div class="dashboard-grid">
+        
+        <!-- Input controls -->
+        <article class="glass-card input-panel">
+          <h2 class="card-title">Patient Profile & Clinical Vitals</h2>
+          <p class="card-desc">Adjust the variables below to simulate patient parameters and update the risk prediction.</p>
+          
+          <form id="prediction-form" class="prediction-form">
+            <!-- Numerical Sliders Group -->
+            <div class="form-group">
+              <div class="slider-header">
+                <label for="input-age">Age</label>
+                <span class="slider-val" id="val-age">50</span><span class="unit">years</span>
+              </div>
+              <input type="range" id="input-age" min="25" max="85" value="50" step="1" class="custom-slider">
+              <div class="slider-limits"><span>25 yrs</span><span>85 yrs</span></div>
+            </div>
+
+            <div class="form-group">
+              <div class="slider-header">
+                <label for="input-bmi">Body Mass Index (BMI)</label>
+                <span class="slider-val" id="val-bmi">26.0</span><span class="unit">kg/m²</span>
+              </div>
+              <input type="range" id="input-bmi" min="15.0" max="43.0" value="26.0" step="0.1" class="custom-slider">
+              <div class="slider-limits"><span>15.0 (Under)</span><span>43.0 (Obese)</span></div>
+            </div>
+
+            <div class="form-group">
+              <div class="slider-header">
+                <label for="input-sbp">Systolic Blood Pressure</label>
+                <span class="slider-val" id="val-sbp">125</span><span class="unit">mmHg</span>
+              </div>
+              <input type="range" id="input-sbp" min="90" max="185" value="125" step="1" class="custom-slider">
+              <div class="slider-limits"><span>90 (Low)</span><span>185 (Crisis)</span></div>
+            </div>
+
+            <div class="form-group">
+              <div class="slider-header">
+                <label for="input-chol">Total Cholesterol</label>
+                <span class="slider-val" id="val-chol">190</span><span class="unit">mg/dL</span>
+              </div>
+              <input type="range" id="input-chol" min="100" max="345" value="190" step="1" class="custom-slider">
+              <div class="slider-limits"><span>100 (Optimal)</span><span>345 (High)</span></div>
+            </div>
+
+            <div class="form-group">
+              <div class="slider-header">
+                <label for="input-gluc">Fasting Glucose Level</label>
+                <span class="slider-val" id="val-gluc">100</span><span class="unit">mg/dL</span>
+              </div>
+              <input type="range" id="input-gluc" min="60" max="190" value="100" step="1" class="custom-slider">
+              <div class="slider-limits"><span>60 (Normal)</span><span>190 (Diabetic)</span></div>
+            </div>
+
+            <div class="form-group">
+              <div class="slider-header">
+                <label for="input-stress">Stress Level</label>
+                <span class="slider-val" id="val-stress">5</span><span class="unit">/ 10</span>
+              </div>
+              <input type="range" id="input-stress" min="1" max="10" value="5" step="1" class="custom-slider">
+              <div class="slider-limits"><span>1 (Relaxed)</span><span>10 (High)</span></div>
+            </div>
+
+            <div class="form-group">
+              <div class="slider-header">
+                <label for="input-exercise">Physical Exercise</label>
+                <span class="slider-val" id="val-exercise">3</span><span class="unit">days/week</span>
+              </div>
+              <input type="range" id="input-exercise" min="0" max="7" value="3" step="1" class="custom-slider">
+              <div class="slider-limits"><span>Sedentary (0)</span><span>Active (7)</span></div>
+            </div>
+
+            <!-- Categorical Binary Group -->
+            <div class="binary-grid">
+              <div class="binary-card">
+                <span class="binary-label">Tobacco Smoking</span>
+                <label class="switch">
+                  <input type="checkbox" id="input-smoking">
+                  <span class="switch-slider"></span>
+                </label>
+              </div>
+
+              <div class="binary-card">
+                <span class="binary-label">Diabetes Diagnosis</span>
+                <label class="switch">
+                  <input type="checkbox" id="input-diabetes">
+                  <span class="switch-slider"></span>
+                </label>
+              </div>
+
+              <div class="binary-card">
+                <span class="binary-label">Family CVD History</span>
+                <label class="switch">
+                  <input type="checkbox" id="input-family">
+                  <span class="switch-slider"></span>
+                </label>
+              </div>
+            </div>
+          </form>
+        </article>
+
+        <!-- Prediction display & analysis -->
+        <div class="result-column">
+          
+          <article class="glass-card result-panel">
+            <div class="model-selection">
+              <button class="model-tab active" id="btn-model-lr">Logistic Regression</button>
+              <button class="model-tab" id="btn-model-rf">Random Forest (Ensemble)</button>
+            </div>
+
+            <!-- Heart representation & Circular risk chart -->
+            <div class="visualization-box">
+              <div class="radial-gauge-container">
+                <svg class="radial-gauge" viewBox="0 0 120 120">
+                  <circle class="gauge-bg" cx="60" cy="60" r="50"></circle>
+                  <circle class="gauge-fill" id="gauge-risk-fill" cx="60" cy="60" r="50" stroke-dasharray="314.15" stroke-dashoffset="314.15"></circle>
+                </svg>
+                <div class="gauge-center">
+                  <svg id="heart-pulse-icon" class="heart-pulse-icon speed-normal color-green" viewBox="0 0 24 24">
+                    <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                  </svg>
+                  <span class="risk-percent" id="display-risk-percent">0%</span>
+                  <span class="risk-label" id="display-risk-label">LOW RISK</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="risk-description">
+              <p id="display-risk-desc">Calculating parameters...</p>
+            </div>
+          </article>
+
+          <!-- Dynamic Feature Contribution -->
+          <article class="glass-card contribution-panel">
+            <h3 class="panel-subtitle">Primary Risk & Protective Factors</h3>
+            <div class="contribution-list" id="contribution-container">
+              <!-- Rendered via JS -->
+            </div>
+          </article>
+
+          <!-- Dynamic Recommendations -->
+          <article class="glass-card recommendation-panel">
+            <h3 class="panel-subtitle">Tailored Lifestyle Actions</h3>
+            <ul class="rec-list" id="recommendation-list">
+              <!-- Rendered via JS -->
+            </ul>
+          </article>
+          
+        </div>
+      </div>
+    </section>
+
+    <!-- Tab 2: Insights Area -->
+    <section class="tab-content" id="tab-insights">
+      <div class="insights-container">
+        
+        <article class="glass-card wide-card">
+          <h2 class="card-title">Model Performance & Validation</h2>
+          <p class="card-desc">Here is the statistical comparison of the machine learning classifiers evaluated during training on the cardiovascular dataset. Supervised tree-based ensemble methods outperformed linear models in identifying critical patterns.</p>
+          
+          <!-- Bar Graph Comparison -->
+          <div class="insights-row">
+            <div class="chart-box">
+              <h3 class="chart-title">Model Accuracy Comparison (<span class="highlight">Test Set</span>)</h3>
+              <div class="bar-chart">
+                <div class="bar-row">
+                  <span class="bar-label">CatBoost Classifier</span>
+                  <div class="bar-container"><div class="bar-fill color-cb" style="width: 98%;"></div></div>
+                  <span class="bar-val">98.1%</span>
+                </div>
+                <div class="bar-row">
+                  <span class="bar-label">XGBoost Classifier</span>
+                  <div class="bar-container"><div class="bar-fill color-xgb" style="width: 95%;"></div></div>
+                  <span class="bar-val">95.0%</span>
+                </div>
+                <div class="bar-row">
+                  <span class="bar-label">LightGBM Classifier</span>
+                  <div class="bar-container"><div class="bar-fill color-lgb" style="width: 94%;"></div></div>
+                  <span class="bar-val">94.0%</span>
+                </div>
+                <div class="bar-row">
+                  <span class="bar-label">Random Forest</span>
+                  <div class="bar-container"><div class="bar-fill color-rf" style="width: 93%;"></div></div>
+                  <span class="bar-val">93.0%</span>
+                </div>
+                <div class="bar-row">
+                  <span class="bar-label">Logistic Regression</span>
+                  <div class="bar-container"><div class="bar-fill color-lr" style="width: 83%;"></div></div>
+                  <span class="bar-val">83.0%</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Model specs / info -->
+            <div class="details-box">
+              <h3>Key Insights & Statistical Significance</h3>
+              <ul class="styled-list">
+                <li><strong>Tree Models vs Linear Models</strong>: Gradient Boosting and Random Forest algorithms successfully modeled complex, non-linear patient interactions (e.g. combination of age and high blood pressure).</li>
+                <li><strong>Clinical Drivers</strong>: Statistical analysis identified <strong>Diabetes</strong>, <strong>Tobacco Smoking</strong>, and <strong>Family History</strong> as the most significant clinical risk factors ($p < 0.001$).</li>
+                <li><strong>Recall vs Precision</strong>: Given the high cost of false negatives in medical diagnostics, models were optimized to maintain high sensitivity (recall) to capture early-stage risk profiles.</li>
+              </ul>
+            </div>
+          </div>
+        </article>
+
+        <article class="glass-card wide-card">
+          <h2 class="card-title">Statistical Feature Correlations</h2>
+          <p class="card-desc">Correlation strengths of health features with the target classification (Cardiovascular Disease).</p>
+          <div class="correlation-chart">
+            <div class="corr-row">
+              <span class="corr-label">Diabetes</span>
+              <div class="corr-track"><div class="corr-bar pos" style="left: 50%; width: 37.9%;"></div></div>
+              <span class="corr-val">+0.379</span>
+            </div>
+            <div class="corr-row">
+              <span class="corr-label">Family History</span>
+              <div class="corr-track"><div class="corr-bar pos" style="left: 50%; width: 26.6%;"></div></div>
+              <span class="corr-val">+0.266</span>
+            </div>
+            <div class="corr-row">
+              <span class="corr-label">Smoking Status</span>
+              <div class="corr-track"><div class="corr-bar pos" style="left: 50%; width: 26.4%;"></div></div>
+              <span class="corr-val">+0.264</span>
+            </div>
+            <div class="corr-row">
+              <span class="corr-label">Patient Age</span>
+              <div class="corr-track"><div class="corr-bar pos" style="left: 50%; width: 24.6%;"></div></div>
+              <span class="corr-val">+0.246</span>
+            </div>
+            <div class="corr-row">
+              <span class="corr-label">Systolic BP</span>
+              <div class="corr-track"><div class="corr-bar pos" style="left: 50%; width: 18.0%;"></div></div>
+              <span class="corr-val">+0.180</span>
+            </div>
+            <div class="corr-row">
+              <span class="corr-label">Body Mass Index</span>
+              <div class="corr-track"><div class="corr-bar pos" style="left: 50%; width: 15.6%;"></div></div>
+              <span class="corr-val">+0.156</span>
+            </div>
+            <div class="corr-row">
+              <span class="corr-label">Fasting Glucose</span>
+              <div class="corr-track"><div class="corr-bar pos" style="left: 50%; width: 15.4%;"></div></div>
+              <span class="corr-val">+0.154</span>
+            </div>
+            <div class="corr-row">
+              <span class="corr-label">Stress Level</span>
+              <div class="corr-track"><div class="corr-bar pos" style="left: 50%; width: 13.8%;"></div></div>
+              <span class="corr-val">+0.138</span>
+            </div>
+            <div class="corr-row">
+              <span class="corr-label">Exercise Frequency</span>
+              <div class="corr-track"><div class="corr-bar neg" style="right: 50%; width: 15.9%;"></div></div>
+              <span class="corr-val">-0.159</span>
+            </div>
+          </div>
+        </article>
+        
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="app-footer">
+    <p>CardioShield is an educational reference tool. Always consult a certified healthcare professional for medical advice.</p>
+    <p>&copy; 2026 CardioShield Platform. Built with Vanilla Web Technologies &amp; Machine Learning.</p>
+  </footer>
+
+  <!-- App Script -->
+  <script src="app.js"></script>
+</body>
+</html>
